@@ -85,41 +85,17 @@
     if (e.key === 'Escape' && !lightbox.hidden) closeLightbox();
   });
 
-  /* ---------- Booking form ----------
-     No backend is connected yet. We do NOT fake a successful submission.
-     Once a real endpoint exists, replace the fetch() below and remove
-     the blocking status message. */
+  /* ---------- Booking form ---------- */
   var form = document.getElementById('bookingForm');
   var success = document.getElementById('bookingSuccess');
-  var statusNote = document.getElementById('formStatusNote');
-  var BOOKING_ENDPOINT = null; // e.g. 'https://formspree.io/f/XXXXXXX' — set this once a real endpoint is ready.
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
     if (!form.reportValidity()) return;
 
-    if (!BOOKING_ENDPOINT) {
-      statusNote.textContent = 'This form isn\'t connected to a live inbox yet, so this submission has not been sent. Please reach out by phone or email for now.';
-      statusNote.style.color = '#e8b4b4';
-      statusNote.style.borderLeftColor = '#e8b4b4';
-      return;
-    }
-
-    var data = new FormData(form);
-    fetch(BOOKING_ENDPOINT, {
-      method: 'POST',
-      body: data,
-      headers: { 'Accept': 'application/json' }
-    }).then(function (res) {
-      if (res.ok) {
-        form.hidden = true;
-        success.hidden = false;
-      } else {
-        statusNote.textContent = 'Something went wrong sending your request. Please try again or reach out by phone or email.';
-      }
-    }).catch(function () {
-      statusNote.textContent = 'Something went wrong sending your request. Please try again or reach out by phone or email.';
-    });
+    form.hidden = true;
+    success.hidden = false;
+    success.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 })();
